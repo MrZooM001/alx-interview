@@ -8,7 +8,7 @@ def canUnlockAll(boxes):
     Method that Checks if all the boxes in a list of lists can be unlocked.
 
     Args:
-        boxes (list): A list where the keys are box numbers
+        boxes (list[list[int]]): A list where the keys are box numbers
         and the values are a list of keys that can unlock that box.
 
     Returns:
@@ -17,16 +17,16 @@ def canUnlockAll(boxes):
     if not boxes:
         return False
 
-    num_boxes = len(boxes)
-    seen = set()
-    seen.add(0)
+    n = len(boxes)
+    seen_boxes = {0}
+    unseen_boxes = set(boxes[0]) - {0}
 
-    def depth_first(box):
-        for key in boxes[box]:
-            if key < num_boxes and key not in seen:
-                seen.add(key)
-                depth_first(key)
+    while unseen_boxes:
+        box = unseen_boxes.pop()
+        if not (0 <= box < n):
+            continue
+        if box not in seen_boxes:
+            unseen_boxes.update(boxes[box])
+            seen_boxes.add(box)
 
-    depth_first(0)
-
-    return len(seen) == num_boxes
+    return len(seen_boxes) == n
