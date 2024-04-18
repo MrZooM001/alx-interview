@@ -1,14 +1,15 @@
 #!/usr/bin/python3
-"""Module to implement Pascal's Triangle."""
+"""Module to implement an algorith to check boxes are unlocked."""
 from collections import deque
 
 
 def canUnlockAll(boxes):
     """
-    Method that Checks if all the boxes in a dictionary can be unlocked.
+    Method that Checks if all the boxes in a list of lists can be unlocked.
 
-    Parameters:
-        boxes (dict): A dictionary where the keys are box numbers and the values are a list of keys that can unlock that box.
+    Args:
+        boxes (list): A list where the keys are box numbers
+        and the values are a list of keys that can unlock that box.
 
     Returns:
         bool: True if all the boxes can be unlocked, False otherwise.
@@ -17,15 +18,15 @@ def canUnlockAll(boxes):
         return False
 
     num_boxes = len(boxes)
-    seen = set()  # Set to keep track of boxes we have seen
-    queue = deque([0])  # Queue to keep track of boxes we can currently unlock
+    seen = set()
+    seen.add(0)
 
-    while queue:
-        box = queue.popleft()
-        seen.add(box)  # Mark the current box as seen
-
+    def depth_first(box):
         for key in boxes[box]:
             if key < num_boxes and key not in seen:
-                queue.append(key)
+                seen.add(key)
+                depth_first(key)
+
+    depth_first(0)
 
     return len(seen) == num_boxes
