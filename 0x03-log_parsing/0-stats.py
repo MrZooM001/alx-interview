@@ -40,10 +40,9 @@ if __name__ == "__main__":
         for line in sys.stdin:
             count += 1
             rgx_match = re.match(rgx_ex, line)
-            code = rgx_match.group(2)
-            if rgx_match and code in status_codes:
+            if rgx_match and rgx_match.group(2) in status_codes:
                 try:
-                    stats[code] += 1
+                    stats[rgx_match.group(2)] += 1
                 except BaseException as e:
                     pass
 
