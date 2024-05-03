@@ -38,17 +38,22 @@ if __name__ == "__main__":
 
     try:
         for line in sys.stdin:
+            count += 1
             rgx_match = re.match(rgx_ex, line)
-            if rgx_match and rgx_match.group(2) in status_codes:
+            code = rgx_match.group(2)
+            if rgx_match and code in status_codes:
                 try:
-                    stats[rgx_match.group(2)] += 1
-                    count += 1
-                    files_total_size += int(rgx_match.group(3))
-                    if count % 10 == 0:
-                        print_stats(stats, files_total_size)
-                        count = 0
+                    stats[code] += 1
                 except BaseException as e:
                     pass
+
+                try:
+                    files_total_size += int(rgx_match.group(3))
+                except BaseException as e:
+                    pass
+
+                if count % 10 == 0:
+                    print_stats(stats, files_total_size)
         print_stats(stats, files_total_size)
     except KeyboardInterrupt:
         print_stats(stats, files_total_size)
