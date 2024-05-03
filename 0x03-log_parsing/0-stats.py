@@ -33,15 +33,15 @@ if __name__ == "__main__":
     )
     files_total_size = 0
     count = 0
-    status_codes = [200, 301, 400, 401, 403, 404, 405, 500]
+    status_codes = ["200", "301", "400", "401", "403", "404", "405", "500"]
     stats = {key: 0 for key in status_codes}
 
     try:
         for line in sys.stdin:
             rgx_match = re.match(rgx_ex, line)
-            if rgx_match and int(rgx_match.group(2)) in status_codes:
+            if rgx_match and rgx_match.group(2) in status_codes:
                 try:
-                    stats[int(rgx_match.group(2))] += 1
+                    stats[rgx_match.group(2)] += 1
                     count += 1
                     files_total_size += int(rgx_match.group(3))
                     if count % 10 == 0:
