@@ -47,8 +47,8 @@ if __name__ == "__main__":
                     if count % 10 == 0:
                         print_stats(stats, files_total_size)
                         count = 0
-                except Exception as e:
-                    print("Error:\t {}".format(str(e)))
+                except BaseException as e:
+                    pass
         print_stats(stats, files_total_size)
     except KeyboardInterrupt:
         print_stats(stats, files_total_size)
