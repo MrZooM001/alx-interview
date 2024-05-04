@@ -31,6 +31,7 @@ if __name__ == "__main__":
         r"\[(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\.\d{6})\]\s"
         r"\"GET\s/projects/260\sHTTP\/1\.1\"\s(\d{3})\s(\d+)\s*$"
     )
+
     files_total_size = 0
     count = 0
     status_codes = ["200", "301", "400", "401", "403", "404", "405", "500"]

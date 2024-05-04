@@ -1,4 +1,4 @@
-***Project:***  **0x02. Minimum Operations**<br />
+***Project:***  **0x03. Log Parsing**<br />
 ***Scope:***  ` Algorithm ` ` Python `<br />
 ## ***Tasks***
 **<h4>Description</h4>**
