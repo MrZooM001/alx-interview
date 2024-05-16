@@ -2,8 +2,6 @@
 """Program to solve N-Queens puzzle"""
 import sys
 
-COUNT = 0
-
 
 def is_safe_possition(board, row, col):
     """
@@ -47,8 +45,6 @@ def n_queens_solution(board, row, n):
         bool: True if a solution is found, False otherwise.
     """
     if row == n:
-        global COUNT
-        COUNT += 1
         for i, row in enumerate(board):
             for col, val in enumerate(row):
                 if val == 1:
@@ -83,7 +79,6 @@ def n_queens(n):
 
     board = [[0] * n for _ in range(n)]
     n_queens_solution(board, 0, n)
-    # print("Number of valid solutions: {}".format(COUNT))
 
 
 if __name__ == "__main__":
