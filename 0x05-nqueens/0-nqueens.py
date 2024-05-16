@@ -45,11 +45,7 @@ def n_queens_solution(board, row, n):
         bool: True if a solution is found, False otherwise.
     """
     if row == n:
-        for i, row in enumerate(board):
-            for col, val in enumerate(row):
-                if val == 1:
-                    print([i, col], end=" ")
-        print()
+        print([[i, row.index(1)] for i, row in enumerate(board)])
         return True
 
     for col in range(n):
