@@ -1,16 +1,31 @@
 #!/usr/bin/python3
-"""Module to rotate a 2D matrix"""
+"""Module to solve making change challenge"""
+from collections import deque
 
 
 def makeChange(coins, total):
+    """
+    determine the fewest number of coins
+    needed to meet a given amount
+
+    Arguments:
+        coins (list[int]): List of coin denominations.
+        total (int): Amount to make change for.
+    """
     if total <= 0:
         return 0
 
-    dynamic = [float('inf')] * (total + 1)
-    dynamic[0] = 0
+    qu = deque([(0, 0)])
+    marked = set([0])
 
-    for coin in coins:
-        for amount in range(coin, total + 1):
-            dynamic[amount] = min(dynamic[amount], dynamic[amount - coin] + 1)
+    while qu:
+        current_total, num_coins = qu.popleft()
+        for coin in coins:
+            new_total = current_total + coin
+            if new_total == total:
+                return num_coins + 1
 
-    return dynamic[total] if dynamic[total] != float('inf') else -1
+            if new_total < total and new_total not in marked:
+                marked.add(new_total)
+                qu.append((new_total, num_coins + 1))
+    return -1
