@@ -2,23 +2,34 @@
 """Module for solving Prime Game algorithms"""
 
 
-def sieve(n):
-    """Generate list of primes up to n using the Sieve of Eratosthenes."""
-    is_prime = [True] * (n + 1)
-    p = 2
-    while p * p <= n:
-        if is_prime[p]:
-            for i in range(p * p, n + 1, p):
-                is_prime[i] = False
-        p += 1
+def is_prime(num):
+    """Helper function to determine if a number is prime."""
+    if num <= 1:
+        return False
+    if num <= 3:
+        return True
+    if num % 2 == 0 or num % 3 == 0:
+        return False
+    i = 5
+    while i * i <= num:
+        if num % i == 0 or num % (i + 2) == 0:
+            return False
+        i += 6
+    return True
 
-    is_prime[0], is_prime[1] = False, False
-    primes = [p for p in range(n + 1) if is_prime[p]]
 
-    return primes
+def precompute_prime_counts(max_num):
+    """Precompute the number of primes up to each number
+    using dynamic programming."""
+    prime_count = [0] * (max_num + 1)
+    for i in range(2, max_num + 1):
+        prime_count[i] = prime_count[i - 1]
+        if is_prime(i):
+            prime_count[i] += 1
+    return prime_count
 
 
-def isWinner(x, numbers):
+def isWinner(x, nums):
     """
     Determine the winner of the Prime Game.
 
@@ -36,47 +47,28 @@ def isWinner(x, numbers):
         or None if there is no winner.
 
     """
-    if x < 1 or not numbers:
+    if x < 1 or not nums:
         return None
 
-    max_num = max(numbers)
-    primes = sieve(max_num)
+    max_num = max(nums)
+    prime_count = precompute_prime_counts(max_num)
 
-    maria = 0
-    ben = 0
+    maria_wins = 0
+    ben_wins = 0
 
-    for n in numbers:
+    for n in nums:
         if n == 1:
-            ben += 1
+            ben_wins += 1
             continue
 
-        available = [True] * (n + 1)
-        available[0] = available[1] = False
-
-        turn = 0
-
-        while True:
-            move_made = False
-            for prime in primes:
-                if prime > n:
-                    break
-                if available[prime]:
-                    move_made = True
-                    for multiple in range(prime, n + 1, prime):
-                        available[multiple] = False
-                    break
-            if not move_made:
-                break
-            turn += 1
-
-        if turn % 2 == 0:
-            ben += 1
+        if prime_count[n] % 2 == 0:
+            ben_wins += 1
         else:
-            maria += 1
+            maria_wins += 1
 
-    if maria > ben:
+    if maria_wins > ben_wins:
         return "Maria"
-    elif ben > maria:
+    elif ben_wins > maria_wins:
         return "Ben"
     else:
         return None
